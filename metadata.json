@@ -1,0 +1,7 @@
+{
+  "name": "KereO Attendance System",
+  "description": "Smart AI facial recognition attendance system with local storage and Gemini-powered verification.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

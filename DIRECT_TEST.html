@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Test</title>
+</head>
+<body style="margin: 0; padding: 0;">
+    <div style="padding: 50px; background: lime; color: black; font-size: 40px; min-height: 100vh;">
+        <h1 style="font-size: 80px; color: red; margin: 0;">🟢 CAN YOU SEE THIS?</h1>
+        <p style="font-size: 30px; margin: 20px 0;">This is a DIRECT HTML file (not through the server)</p>
+        <p style="font-size: 24px;">If you can see this bright green page, your browser works fine.</p>
+        <p style="font-size: 24px;">The issue is with the React app loading.</p>
+        
+        <hr style="margin: 40px 0; border: 3px solid black;">
+        
+        <h2 style="font-size: 40px;">Now testing localhost:3000...</h2>
+        <iframe 
+            src="http://localhost:3000" 
+            style="width: 100%; height: 600px; border: 5px solid red; background: white;"
+        ></iframe>
+        <p style="font-size: 20px; margin-top: 20px;">
+            ☝️ Look in the red box above. Do you see ANYTHING? Even a yellow box or text?
+        </p>
+    </div>
+</body>
+</html>

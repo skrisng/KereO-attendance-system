@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend-Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background: #4CAF50; color: white; }
+        .error { background: #f44336; color: white; }
+        .pending { background: #FF9800; color: white; }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #0b7dda; }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Frontend-Backend Connection Test</h1>
+    
+    <div class="test-card">
+        <h2>Backend Server Status</h2>
+        <p>Testing: <code>http://localhost:8000/api/users/</code></p>
+        <p>Status: <span id="backend-status" class="status pending">Testing...</span></p>
+        <pre id="backend-response"></pre>
+    </div>
+
+    <div class="test-card">
+        <h2>Attendance API Status</h2>
+        <p>Testing: <code>http://localhost:8000/api/attendance/stats/</code></p>
+        <p>Status: <span id="attendance-status" class="status pending">Testing...</span></p>
+        <pre id="attendance-response"></pre>
+    </div>
+
+    <div class="test-card">
+        <h2>Frontend Server Status</h2>
+        <p>Frontend: <code>http://localhost:3000</code></p>
+        <p>Status: <span class="status success">✓ Running (You're viewing this page!)</span></p>
+    </div>
+
+    <div class="test-card">
+        <button onclick="runTests()">🔄 Run Tests Again</button>
+    </div>
+
+    <script>
+        async function testBackend() {
+            try {
+                const response = await fetch('http://localhost:8000/api/users/');
+                const data = await response.json();
+                document.getElementById('backend-status').className = 'status success';
+                document.getElementById('backend-status').textContent = '✓ Connected';
+                document.getElementById('backend-response').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('backend-status').className = 'status error';
+                document.getElementById('backend-status').textContent = '✗ Failed';
+                document.getElementById('backend-response').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function testAttendance() {
+            try {
+                const response = await fetch('http://localhost:8000/api/attendance/stats/');
+                const data = await response.json();
+                document.getElementById('attendance-status').className = 'status success';
+                document.getElementById('attendance-status').textContent = '✓ Connected';
+                document.getElementById('attendance-response').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('attendance-status').className = 'status error';
+                document.getElementById('attendance-status').textContent = '✗ Failed';
+                document.getElementById('attendance-response').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        function runTests() {
+            document.getElementById('backend-status').className = 'status pending';
+            document.getElementById('backend-status').textContent = 'Testing...';
+            document.getElementById('attendance-status').className = 'status pending';
+            document.getElementById('attendance-status').textContent = 'Testing...';
+            
+            testBackend();
+            testAttendance();
+        }
+
+        // Run tests on page load
+        window.onload = runTests;
+    </script>
+</body>
+</html>

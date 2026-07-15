@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Diagnostic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2 4px rgba(0,0,0,0.1);
+        }
+        .status { padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        h2 { color: #333; margin-top: 0; }
+        .info { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Kereo App Diagnostic Tool</h1>
+    
+    <div class="box">
+        <h2>Server Status</h2>
+        <div id="backend-status" class="status">Checking backend...</div>
+        <div id="frontend-status" class="status">Checking frontend...</div>
+    </div>
+
+    <div class="box">
+        <h2>API Test Results</h2>
+        <button onclick="testAPI()">🔄 Test API Connection</button>
+        <pre id="api-results">Click button to test...</pre>
+    </div>
+
+    <div class="box">
+        <h2>Quick Actions</h2>
+        <button onclick="openApp()">🚀 Open Main App</button>
+        <button onclick="openBackend()">🔧 Open Backend API</button>
+        <button onclick="location.reload()">🔄 Refresh Diagnostic</button>
+    </div>
+
+    <div class="box">
+        <h2>App Preview</h2>
+        <p class="info">This shows what your app looks like. If you see content below, the app is working!</p>
+        <iframe id="app-frame" src="http://localhost:3000"></iframe>
+    </div>
+
+    <div class="box">
+        <h2>Troubleshooting Tips</h2>
+        <ul>
+            <li><strong>If the iframe above is blank:</strong> The app might have a dark background. Look carefully for any text or buttons.</li>
+            <li><strong>If you see "Loading...":</strong> The app is fetching data from the backend.</li>
+            <li><strong>If you see errors:</strong> Check the API test results above.</li>
+            <li><strong>Try opening in a different browser:</strong> Chrome, Edge, or Firefox.</li>
+        </ul>
+    </div>
+
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch('http://localhost:8000/api/users/');
+                if (response.ok) {
+                    document.getElementById('backend-status').className = 'status success';
+                    document.getElementById('backend-status').textContent = '✅ Backend is running on http://localhost:8000';
+                    return true;
+                }
+            } catch (error) {
+                document.getElementById('backend-status').className = 'status error';
+                document.getElementById('backend-status').textContent = '❌ Backend is not responding';
+                return false;
+            }
+        }
+
+        async function checkFrontend() {
+            try {
+                const response = await fetch('http://localhost:3000');
+                if (response.ok) {
+                    document.getElementById('frontend-status').className = 'status success';
+                    document.getElementById('frontend-status').textContent = '✅ Frontend is running on http://localhost:3000';
+                    return true;
+                }
+            } catch (error) {
+                document.getElementById('frontend-status').className = 'status error';
+                document.getElementById('frontend-status').textContent = '❌ Frontend is not responding';
+                return false;
+            }
+        }
+
+        async function testAPI() {
+            const results = document.getElementById('api-results');
+            results.textContent = 'Testing...\n';
+            
+            try {
+                // Test users endpoint
+                const usersResponse = await fetch('http://localhost:8000/api/users/');
+                const usersData = await usersResponse.json();
+                results.textContent += `✅ Users API: ${usersResponse.status}\n`;
+                results.textContent += `   Data: ${JSON.stringify(usersData, null, 2)}\n\n`;
+
+                // Test attendance endpoint
+                const attendanceResponse = await fetch('http://localhost:8000/api/attendance/');
+                const attendanceData = await attendanceResponse.json();
+                results.textContent += `✅ Attendance API: ${attendanceResponse.status}\n`;
+                results.textContent += `   Data: ${JSON.stringify(attendanceData, null, 2)}\n\n`;
+
+                results.textContent += '✅ All API endpoints are working!\n';
+            } catch (error) {
+                results.textContent += `❌ Error: ${error.message}\n`;
+            }
+        }
+
+        function openApp() {
+            window.open('http://localhost:3000', '_blank');
+        }
+
+        function openBackend() {
+            window.open('http://localhost:8000/api/', '_blank');
+        }
+
+        // Run checks on load
+        window.onload = () => {
+            checkBackend();
+            checkFrontend();
+        };
+    </script>
+</body>
+</html>

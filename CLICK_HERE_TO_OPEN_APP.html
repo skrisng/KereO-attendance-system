@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Kereo App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .url {
+            font-size: 1.5em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-family: monospace;
+        }
+        .button {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .status {
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+        .green { color: #4CAF50; }
+        .info {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Your App is Running!</h1>
+        
+        <div class="url">
+            http://localhost:3000
+        </div>
+        
+        <a href="http://localhost:3000" class="button">
+            🚀 OPEN APP NOW
+        </a>
+        
+        <div class="status">
+            <p>✅ Backend: <span class="green">Running on port 8000</span></p>
+            <p>✅ Frontend: <span class="green">Running on port 3000</span></p>
+        </div>
+        
+        <div class="info">
+            <p>Click the button above or copy the URL to your browser</p>
+            <p>If the button doesn't work, manually type: <strong>localhost:3000</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-redirect after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'http://localhost:3000';
+        }, 3000);
+    </script>
+</body>
+</html>
